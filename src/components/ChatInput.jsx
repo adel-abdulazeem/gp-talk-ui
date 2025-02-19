@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaCircleArrowUp } from "react-icons/fa6";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import { ChevronDown, Menu, Mic, Plus } from "lucide-react"
+import { ActionBtn } from './ActionBtn';
+
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
@@ -52,6 +55,10 @@ const ChatInput = () => {
   };
 
   return (
+    <main className="max-w-3xl mx-auto px-4 py-8 min-h-screen">
+        <h1 className="text-2xl font-semibold text-center mb-6">What can I help with?</h1>
+
+    
     <div className="container">
       <div className="messages">
         {messages.map((msg, index) => (
@@ -105,7 +112,7 @@ const ChatInput = () => {
             onClick={() => fileInputRef.current.click()}
             className="fileButton"
           >
-            <FaCirclePlus  size={32}/>       
+              <Plus  />
           </button>
           <button
             type="button"
@@ -134,6 +141,9 @@ const ChatInput = () => {
           </div>
       </form>
     </div>
+    <ActionBtn/>
+    </main>
+
   );
 };
 

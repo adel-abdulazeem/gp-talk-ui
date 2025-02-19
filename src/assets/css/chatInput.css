@@ -13,7 +13,7 @@
   }
   
   .message {
-    background-color: #f0f0f0;
+    background-color: #6d6c6c;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -27,7 +27,7 @@
   
   .timestamp {
     font-size: 0.7em;
-    color: #999;
+    color: #ffffff;
     text-align: right;
     margin-top: 5px;
   }
