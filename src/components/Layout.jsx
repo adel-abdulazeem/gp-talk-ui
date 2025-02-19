@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     ];
 
     return (
-      <div className='grid'>
+      <div>
         <Header links={navLinks} />
         {children}
         <Footer/>

@@ -1,56 +1,138 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
+import { FaCircleArrowUp } from "react-icons/fa6";
+import { FaCirclePlus } from "react-icons/fa6";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
-const ChatInput = ({ onSendMessage }) => {
-  const [message, setMessage] = useState("");
-  const textareaRef = useRef(null);
+const ChatInput = () => {
+  const [message, setMessage] = useState('');
+  const [file, setFile] = useState(null);
+  const [fileAttached, setFileAttached] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const fileInputRef = useRef(null);
+  const [messages, setMessages] = useState([]);
 
-  // Auto-resize textarea height based on content
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      textareaRef.current.focus();
+    setIsActive(message.trim() !== '' || fileAttached);
+  }, [message, fileAttached]);
 
-    }
-  }, [message]);
-
-  const handleInputChange = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const handleSend = () => {
-    if (message.trim()) {
-      onSendMessage(message);
-      setMessage("");
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setFileAttached(true);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevents newline on Enter
-      handleSend();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isActive) return;
+
+    // Handle message submission here
+    const newMessage = {
+      text: message,
+      file: file ? file.name : null,
+      timestamp: new Date().toISOString(),
+    };
+
+    setMessages([...messages, newMessage]);
+    setMessage('');
+    setFile(null);
+    setFileAttached(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
+  };
+
+  const handleSearch = () => {
+    alert('Search functionality to be implemented');
+  };
+
+  const handleReason = () => {
+    alert('Reason functionality to be implemented');
   };
 
   return (
-    <div className="chat-input-container">
-      <textarea
-        ref={textareaRef}
-        value={message}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        placeholder="Type your message..."
-        rows={1}
-        className="chat-input"
-      />
-      <button 
-      onClick={handleSend} 
-      disabled={!message.trim()}
-      className="send-button"
-      aria-label="Send message"
-      >
-        Send
-      </button>
+    <div className="container">
+      <div className="messages">
+        {messages.map((msg, index) => (
+          <div key={index} className="message">
+            <div>{msg.text}</div>
+            {msg.file && <div className="fileInfo">Attached: {msg.file}</div>}
+            <div className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</div>
+          </div>
+        ))}
+      </div>
+      
+      <form onSubmit={handleSubmit} className="form">
+        <div className="inputContainer">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type a message..."
+            className="textInput"
+          />
+          
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+          
+          {fileAttached && (
+            <div className="fileName">
+              {file.name}
+              <button
+                type="button"
+                onClick={() => {
+                  setFile(null);
+                  setFileAttached(false);
+                  fileInputRef.current.value = '';
+                }}
+                className="clearFile"
+              >
+                <IoCloseCircleSharp size={24}/>
+              </button>
+            </div>
+          )}
+        </div>
+        
+        <div className="buttonGroup">
+          <div className='btn-opt'>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current.click()}
+            className="fileButton"
+          >
+            <FaCirclePlus  size={32}/>       
+          </button>
+          <button
+            type="button"
+            onClick={handleSearch}
+            className="searchButton"
+          >
+            Web
+          </button>
+          <button
+            type="button"
+            onClick={handleReason}
+            className="reasonButton"
+          >
+            Reason
+          </button>
+        </div>
+        <div>
+          <button
+            type="submit"
+            className={isActive ? 'activeButton' : 'inactiveButton'}
+            disabled={!isActive}
+          >
+            <FaCircleArrowUp size={32}/>
+          </button>
+          </div>
+          </div>
+      </form>
     </div>
   );
 };

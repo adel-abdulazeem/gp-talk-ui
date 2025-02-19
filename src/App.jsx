@@ -6,7 +6,7 @@ function App() {
     <>
       <AuthProvider>
       <Layout>
-         <ChatInput/>
+        <ChatInput/>
       </Layout>
       </AuthProvider>
     </>
