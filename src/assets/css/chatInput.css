@@ -1,41 +1,92 @@
-.chat-input-container {
-    margin-top: 50%;
 
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    border-top: 1px solid #ccc;
-    background-color: #fff;
+.fileInfo {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+  .form {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0.5rem;
   }
-  
-  .chat-input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+  .inputContainer {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .textInput {
+    width: 100%;
+    min-height: 3rem;
+    height: auto;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
     resize: none;
-    overflow-y: hidden;
+    line-height: 1.5;
+    transition: all 0.2s ease;
     outline: none;
   }
-  
-  .chat-input:focus {
-    border-color: #007bff;
-  }
-  
-  .send-button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+  .fileButton {
+    background: none;
+    border: solid 5px #666;
+    border-radius: 50%;
+    font-size: 1.2em;
     cursor: pointer;
-    font-size: 16px;
+    padding: 5px;
+  }
+  .fileButton:hover{
+    color:#007bff;
+    border: #007bff solid 5px;
+  }
+  .fileName {
+    position: absolute;
+    top: -55px;
+    left: 0;
+    font-size: 0.8em;
+    padding: 2px 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
   
-  .send-button:hover {
-    background-color: #0056b3;
+  .clearFile {
+    border: none;
+    cursor: pointer;
   }
-
+  .clearFile:hover{
+    color:#f20746
+  }
+  .buttonGroup {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .btn-opt{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .searchButton,
+  .reasonButton,
+  .activeButton,
+  .inactiveButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .searchButton,
+  .reasonButton
+   {
+    color: #666;
+    border: solid 1px #666;
+  }
+  .activeButton:hover {
+    color: #007bff;
+  }
   
+  .inactiveButton {
+    cursor: not-allowed;
+  }

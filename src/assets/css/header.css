@@ -1,10 +1,8 @@
-/* LIGHT MODE STYLES (default) */
 .main-header {
-    background-color: #f8f8f8; /* light background */
+    background-color: #f8f8f8; 
     border-bottom: 1px solid #eaeaea;
     padding: 10px 20px;
   }
-  
   .main-nav ul {
     list-style: none;
     margin: 0;
@@ -13,7 +11,6 @@
     align-items: center;
     justify-content: space-between;
   }
-  
   .main-nav li {
     display: flex;
     gap: 20px;
@@ -24,25 +21,27 @@
     display: flex;
     gap: 20px;
   }
-  
   .main-nav li:hover {
     color: #0070f3;
     border-radius: 4px;
-
     cursor: pointer;
   }
-  
   /* DARK MODE STYLES */
   .dark .main-header {
     background-color: #000; /* dark background */
     border-bottom: 1px solid #333;
   }
-  
   .dark .main-nav li {
     color: #fff;
   }
-  
   .dark .main-nav li:hover {
     color: #ffcc00;
   }
-  
+  /* Header Auth Buttons Container */
+.header-auth-section {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto; 
+}
+
+

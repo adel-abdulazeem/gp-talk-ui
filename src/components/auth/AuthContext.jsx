@@ -3,26 +3,25 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage first, then system preference
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) return savedMode === "true";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated") === "true";
-    setIsAuthenticated(storedAuth);
-    
-    // Apply dark mode class to root element
+    const storedUser = localStorage.getItem("user");
+    const storedLogin = localStorage.getItem('isAuthenticated')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    if (storedLogin) {
+      setIsAuthenticated(true);
+    }
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [darkMode]);
-
+  }, [darkMode, isAuthenticated]);
   const toggleDarkMode = () => {
     setDarkMode(prev => {
       const newMode = !prev;
@@ -31,22 +30,28 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const login = () => {
-    localStorage.setItem("isAuthenticated", "true");
+  const login = (userData) => {
     setIsAuthenticated(true);
-  };
-  const logout = () => {
-    localStorage.removeItem("isAuthenticated"); // Remove authentication status
-    setIsAuthenticated(false);
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
-        const value = {
-          isAuthenticated,
-          login,
-          logout,
-          darkMode,
-          toggleDarkMode
-        };
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUser(null);
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
+  };
+  
+  const value = {
+    isAuthenticated,
+    login,
+    logout,
+    darkMode,
+    toggleDarkMode,
+    user
+  };
+
   return (
     <AuthContext.Provider value={value}>
       <div className={darkMode ? "dark" : ""}>
