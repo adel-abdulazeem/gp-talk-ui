@@ -1,6 +1,7 @@
 import { AuthProvider } from "./components/auth/AuthContext"
 import ChatInput from "./components/ChatInput"
 import Layout from "./components/Layout"
+
 function App() {
   return (
     <>

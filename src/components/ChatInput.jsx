@@ -3,7 +3,6 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { CircleArrowUp, Plus } from "lucide-react"
 import { ActionBtn } from './ActionBtn';
 
-
 const ChatInput = () => {
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
@@ -52,7 +51,7 @@ const ChatInput = () => {
   };
 
   const handleSearch = () => {
-    alert('Search functionality to be implemented');
+    alert('WebSearch functionality to be implemented');
   };
 
   const handleReason = () => {

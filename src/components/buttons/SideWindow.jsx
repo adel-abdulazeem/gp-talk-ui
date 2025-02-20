@@ -1,38 +1,43 @@
 import { useState, useEffect } from 'react';
-import { PanelRightClose, Menu } from 'lucide-react';
+import { PanelRightClose, Menu, X } from 'lucide-react'; // Import X icon
 
-export default function SideWindow(){
+
+
+export default function SideWindow() {
     const [isMobile, setIsMobile] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
-          setIsMobile(window.innerWidth < 640); // Tailwind's 'sm' breakpoint
+            setIsMobile(window.innerWidth < 640);
         };
-        // Initial check
         handleResize();
         window.addEventListener('resize', handleResize);
-            // Cleanup
-    return () => window.removeEventListener('resize', handleResize);
-}, []);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    const closeSidebar = () => {
+        setIsSidebarOpen(false);
+    };
 
     return (
-        <button>
-{isMobile ? (
-    // Mobile icon (hamburger menu)
-    <Menu />
-  ) : (
-    // Desktop icon (different icon)
-    <PanelRightClose />
-  )}
-        </button>
-    )
+        <div>
+            <button className="sidebar-button" onClick={toggleSidebar}>
+                {isMobile ? <Menu /> : <PanelRightClose />}
+            </button>
+            <div className={`main-nav sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                <div className="sidebar-header">
+                    <div>
+                    </div>
+                    <button className='close-button' onClick={closeSidebar}>
+                        <X />
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
-
-
-
-
-
-
-
-
-
