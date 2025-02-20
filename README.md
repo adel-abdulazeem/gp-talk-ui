@@ -1,4 +1,4 @@
-# GPTalk
+# GPTalk-AI
 
 GPTalk is an AI-powered chat model built using **React** and **Tailwind CSS**. It provides a seamless and responsive chat experience, leveraging AI to generate human-like conversations.
 
