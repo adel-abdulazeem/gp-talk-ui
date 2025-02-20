@@ -5,7 +5,7 @@ export function ActionBtn(){
         <>
                 {/* Action buttons */}
         <div className="flex flex-wrap gap-2 justify-center mt-6">
-          <button variant="outline" className="rounded-full">
+          <button variant="outline" className=".searchButton">
             Create image
           </button>
           <button variant="outline" className="rounded-full">
@@ -19,9 +19,6 @@ export function ActionBtn(){
           </button>
           <button variant="outline" className="rounded-full">
             Summarize text
-          </button>
-          <button variant="outline" className="rounded-full">
-            More
           </button>
         </div>
         </>

@@ -10,7 +10,7 @@ const Header = ({ links }) => {
                 <SideWindow/>
                 </li>
                 <li>
-                  convo AI
+                  GPTalk-AI
                 </li>
                 <div className="action-buttons">
                 <li >
