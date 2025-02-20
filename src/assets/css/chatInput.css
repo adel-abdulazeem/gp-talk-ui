@@ -7,8 +7,6 @@
     background: whitesmoke;
   }
   
-/* Add these styles to your CSS file */
-
 .messages {
   max-height: 60vh;
   overflow-y: auto;
@@ -21,13 +19,13 @@
   max-height: 60vh;
   width: 100%;
   scroll-behavior: smooth;
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 10px; */
 }
 
 .message {
-  flex: 1 1 calc(50% - 10px);
+  /* flex: 1 1 calc(50% - 10px); */
   margin-bottom: 1.5rem;
   padding: 1rem;
   background: #dfe0e1;
