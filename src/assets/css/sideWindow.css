@@ -5,10 +5,8 @@
     right: -250px; /* Start off-screen */
     width: 250px;
     height: 100%;
-    background-color: #f0f0f0;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    z-index: 1000;
     border-radius: 4px;
     transition: left 0.3s ease-in-out; /* Add transition */
 }
@@ -29,7 +27,6 @@
     border: none;
     cursor: pointer;
     font-size: 1.5rem;
-    color: #333;
 }
 .close-button:hover{
     color:#0070f3;
