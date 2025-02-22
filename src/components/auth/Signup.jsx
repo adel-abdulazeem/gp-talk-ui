@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
-export default function Signup() {
+export default function Signup(props) {
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -9,6 +10,7 @@ export default function Signup() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +33,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:2121/signup", {
+      const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,6 +56,9 @@ export default function Signup() {
         password: "",
         confirmPassword: "",
       }); // Reset the form
+      login(data.user);
+      props.onClose();
+      alert("Login successful!");
     } catch (err) {
       setError(err.message || "An error occurred during signup");
     } finally {
@@ -62,13 +67,24 @@ export default function Signup() {
   };
 
   return (
-     <>
-          <div className="form-description">
-               <h2>Sign Up</h2>
-               {error && <div className="alert alert-danger">{error}</div>}
+     <div className="overlay">
+          <div className="form-description">               
           </div>
           <div className="signup-container">
-               <form onSubmit={handleSubmit} method="POST">
+            <div className="form-header">
+              <p>
+              Please Sign UP button if you don't have an account to get access to more features
+              </p>
+              <button 
+                className="close-button" 
+                 onClick={props.onClose}
+                  aria-label="Close login form"
+                  >
+                  &times;
+              </button>
+            </div>
+               <form onSubmit={handleSubmit}>
+               {error && <div className="alert alert-danger">{error}</div>}
                     <div className="form-group">
                          <label htmlFor="userName" >User Name</label>
                          <input 
@@ -114,12 +130,22 @@ export default function Signup() {
                          id="confirmPassword"
                          />
                     </div>
-                    <button>
-                         {loading ? "Signing Up..." : "Submit"}
+                    <button 
+                    className="formBtn"
+                    disabled={loading}
+                    >
+                    {loading ? (
+                      <>
+                        <span aria-hidden="true">⏳</span>
+                        Signing in...
+                      </>
+                      ) : (
+                      "Sign Up"
+                      )}
                     </button>
                </form>
           </div>
-     </>
+      </div>
     )
 }
 

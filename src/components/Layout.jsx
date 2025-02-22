@@ -3,7 +3,9 @@ import Footer from './partials/Footer';
 const Layout = ({ children }) => {
 
     const navLinks = [
-      { path: '/', name: 'Dashboard' },
+      { path: '/signup', name: 'Sign-Up' },
+      { path: '/logout', name: 'Logout' },
+      { path: '/login', name: 'Login' }
     ];
 
     return (

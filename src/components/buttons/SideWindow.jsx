@@ -33,7 +33,7 @@ export default function SideWindow() {
             <div className={
                 `main-nav sidebar 
                 ${isSidebarOpen ? 'open' : ''}
-                ${darkMode? 'dark' : 'light'}
+                ${darkMode? 'dark' : ''}
                 `
                 }>
                 <div className="sidebar-header">

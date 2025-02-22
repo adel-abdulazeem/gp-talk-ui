@@ -45,3 +45,16 @@
     color: #ffcc00;
   }
   
+  /* Header Auth Buttons Container */
+.header-auth-section {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto; /* Pushes to right in flex container */
+}
+
+.form-header p {
+  color: var(--text-primary, #374151); /* Default dark gray */
+  font-size: 0.95rem;
+  line-height: 1.6;
+  padding: 0.5rem 1rem;
+}

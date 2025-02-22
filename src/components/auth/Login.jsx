@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-const Login = () => {
+
+const Login = (props) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,7 +9,6 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +41,7 @@ const Login = () => {
 
     try {
       // Send login request to the server
-      const response = await fetch("http://localhost:5174/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -51,6 +50,7 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json()
+      console.log(data)
       if (!response.ok) {
         // Handle validation or authentication errors
         if (data.errors) {
@@ -60,9 +60,9 @@ const Login = () => {
         }
         return;
       }
-      login();
+      login(data.user);
+      props.onClose()
       alert("Login successful!");
-      navigate("/dashboard"); // Redirect to home/dashboard
     } catch (err) {
       // Handle different types of errors
       if (err.name === "TypeError" && err.msg === "Failed to fetch") {
@@ -79,15 +79,24 @@ const Login = () => {
 
   return (
     <>
-      <div className="form-description">
-      {error && <p className="alert alert-danger">{error}</p>}
-      {/* Add the description here */}
-      <p className="auth-description">
-        Only users authenticated by the admin can log in. If you don't have     credentials, please contact the administrator.
-      </p>
+    <div className="overlay">
+    <div className="form-description">
       </div>
       <div className="signup-container">
+        <div className="form-header">
+            <p>
+            Please Login to access your personalized dashboard and chat history             
+            </p>
+            <button 
+             className="close-button" 
+             onClick={props.onClose}
+             aria-label="Close login form"
+            >
+             &times;
+            </button>
+        </div>
       <form onSubmit={handleSubmit}>
+      {error &&<p className="alert alert-danger">{error}</p>}
           <div className="form-group">
              <label htmlFor="email">
                email
@@ -115,19 +124,22 @@ const Login = () => {
             />
           </div>
           <button
+          className="formBtn"
             type="submit"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-          <p className="alert alert-danger">
-          Don't have an account? Only an admin can sign up.{" "}
-          <a href="/signup" >
-            SignUp
-          </a>
-            </p>
+        {loading ? (
+          <>
+            <span aria-hidden="true">⏳</span>
+            Logging in...
+          </>
+        ) : (
+          "Login"
+        )}          
+        </button>
         </form>
       </div>
+    </div>
     </>
   );
 };

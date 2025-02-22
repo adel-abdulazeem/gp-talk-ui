@@ -8,7 +8,7 @@ export default  function DarkMode () {
   return (
       <button 
         onClick={toggleDarkMode}
-        className="p-2 rounded-lg bg-gray-200 dark:bg-gray-900"
+        className="formBtn bg-gray-200 dark:bg-gray-900"
       >
         {darkMode ? '🌞 Light' : '🌙 Dark'}
       </button>
