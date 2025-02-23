@@ -1,15 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 /* mode */
 .dark{
   background-color: black;
   color: white;
-}
-.light{
-  background-color: #f0f0f0;
 }
 /* message style */
 .message-body {
@@ -35,9 +30,7 @@
   color: #007bff;
 }
 .user-message { background-color: #e3f2fd; }
-.bot-message { background-color: #f5f5f5; }
 .error-message { background-color: #ffebee; color: #b71c1c; }
-
 /* Link styling */
 a {
   color: #007bff;

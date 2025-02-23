@@ -14,7 +14,7 @@ const InputArea = forwardRef(({ value, onChange }, ref) => {
       value={value}
       onChange={handleChange}
       placeholder="Type a message..."
-      className="textInput"
+      className="textInput dark:bg-gray-800"
       rows={1}
     />
     </div>

@@ -2,7 +2,7 @@
 .container {
     max-width: 800px;
     min-width: 340px;
-    border: 1px solid #ccc;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
     background-color: white;
     margin-top: 100px;
@@ -12,7 +12,6 @@
   scroll-behavior: smooth;
   margin-bottom: 1rem;
   width: 100%;
-  scroll-behavior: smooth;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -35,7 +34,6 @@
 }
 .fileInfo {
   font-size: 0.9rem;
-  color: #4a5568;
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
@@ -61,12 +59,10 @@
     line-height: 1.5;
     transition: all 0.2s ease;
     outline: none;
-    color: black;
   }
   .fileButton {
     background: none;
     border: solid 5px #666;
-    color: #666;
     border-radius: 50%;
     font-size: 1.2em;
     cursor: pointer;
@@ -81,8 +77,6 @@
     top: -55px;
     left: 0;
     font-size: 0.8em;
-    background-color: #f0f0f0;
-    color: black;
     padding: 2px 5px;
     border-radius: 5px;
     display: flex;
@@ -91,13 +85,11 @@
   }
   
   .clearFile {
-    background: none;
     border: none;
     cursor: pointer;
-    color: #666;
   }
   .clearFile:hover{
-    color:#007bff
+    color:#f20746
   }
   .buttonGroup {
     display: flex;
@@ -124,11 +116,10 @@
     color: #666;
     border: solid 1px #666;
   }
-  .activeButton {
+  .activeButton:hover {
     color: #007bff;
   }
   
   .inactiveButton {
-    color: #666;
     cursor: not-allowed;
   }

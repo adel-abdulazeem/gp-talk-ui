@@ -17,7 +17,7 @@ const ChatForm = ({
   handleClearFile
 }) => {
   return (
-    <div className="container">
+    <div className="container dark:bg-gray-800">
       <form onSubmit={handleSubmit} className="form">
         <div className="inputContainer">
           <InputArea ref={textAreaRef} value={message} onChange={setMessage} />

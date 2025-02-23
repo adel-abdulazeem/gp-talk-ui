@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { nanoid } from 'nanoid'
 
-import { ActionBtn } from './buttons/ActionBtn';
 import { AuthContext } from "./auth/AuthContext";
 import MessageList from './chat/MessageList'
 import ChatForm from './chat/ChatForm'
@@ -110,7 +109,6 @@ const ChatInput = () => {
               fileInputRef.current.value = '';
             }}
             />
-    <ActionBtn/>
     </main>
   );
 };

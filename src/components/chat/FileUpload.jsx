@@ -11,7 +11,7 @@ const FileUpload = forwardRef(({ file, fileAttached, onChange, onClear }, ref) =
         style={{ display: 'none' }}
       />
       {fileAttached && (
-        <div className="fileName">
+        <div className="fileName bg-gray-200 dark:bg-gray-800">
           {file.name}
           <button 
           className="clearFile"
