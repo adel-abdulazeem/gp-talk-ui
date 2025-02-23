@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add Your Custom CSS Here */
+
+/* mode */
 .dark{
   background-color: black;
   color: white;
@@ -10,6 +11,33 @@
 .light{
   background-color: #f0f0f0;
 }
+/* message style */
+.message-body {
+  white-space: pre-wrap;
+  word-break:break-all;
+}
+.message-body.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toggle-expand {
+  color: #666;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  font-size: 0.8em;
+}
+
+.toggle-expand:hover {
+  text-decoration: underline;
+  color: #007bff;
+}
+.user-message { background-color: #e3f2fd; }
+.bot-message { background-color: #f5f5f5; }
+.error-message { background-color: #ffebee; color: #b71c1c; }
+
 /* Link styling */
 a {
   color: #007bff;
@@ -34,15 +62,12 @@ a:hover {
   align-items: center;
   z-index: 1000;
 }
-
 .signup-container {
-  background: #ffffff;
-  padding: 1rem 1.5rem ;
+  padding: 1.5rem 1.5rem 3rem 1.5rem ;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  margin: 1rem;
 }
 .form-description {
   text-align: center;
@@ -59,11 +84,11 @@ a:hover {
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #333;
   font-weight: 500;
 }
 .form-group input {
   width: 100%;
+  color: black;
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -78,13 +103,9 @@ a:hover {
 .signup-container button {
   width: 100%;
   padding: 1rem;
+  margin-top: 1rem;
   background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
   font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .formBtn {
@@ -104,12 +125,10 @@ a:hover {
   background-color: #0056b3;
   color: white;
 }
-
 .signup-container button:disabled {
   background-color: #6c757d;
   cursor: not-allowed;
 }
-
 .alert-danger {
   padding: 1rem;
   margin-bottom: 1rem;
@@ -121,7 +140,6 @@ a:hover {
 .signup-container .close-button {
   background: none;
   border: none;
-  color: grey;
   font-size: 2rem;
   cursor: pointer;
   width: 40px;
@@ -130,7 +148,6 @@ a:hover {
   align-items: center;
   transition: transform 0.2s ease;
 }
-
 button.close-button:hover {
   transform: scale(1.2);
   color: #ff4444;
@@ -141,45 +158,41 @@ button.close-button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   z-index: 1000;
-  width: 300px;
+}
+.confirmation-modal p{
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .button-container {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 40px;
 }
-.confirmation-modal button {
-  flex: 1;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-.confirmation-modal button.confirm {
-  background-color: #fc6767;
-  color: white;
-}
-.confirmation-modal button.confirm:hover {
-  background-color: #fa0101;
-}
-.confirmation-modal button.cancel {
-  background-color: #cccccc;
-  color: #333333;
-}
-.confirmation-modal button.cancel:hover {
-  background-color: #bbbbbb;
-}
-
 .form-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+.form-header p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.confirmation-modal button {
+  border: 1px solid;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+.confirmation-modal button.confirm:hover {
+  background-color: #fa0101;
+  color: white;
+}
+.confirmation-modal button.cancel:hover {
+  background-color: #bbbbbb;
 }

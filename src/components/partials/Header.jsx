@@ -15,7 +15,6 @@ const Header = () => {
   const [showLogout, setShowLogout] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const {isAuthenticated, user} = useContext(AuthContext);
-console.log(isAuthenticated)
     return (
       <header className="main-header sticky top-0 z-50">
         <nav className="main-nav">

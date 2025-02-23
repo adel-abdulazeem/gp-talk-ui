@@ -2,19 +2,18 @@
 .sidebar {
     position: fixed;
     top: 0;
-    right: -250px; /* Start off-screen */
+    right: -250px; 
     width: 250px;
     height: 100%;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 4px;
-    transition: left 0.3s ease-in-out; /* Add transition */
+    transition: left 0.3s ease-in-out; 
 }
-
 .sidebar.open {
     left: 0; 
+    z-index: 1000;
 }
-
 .sidebar-header {
     display: flex;
     justify-content: space-between;

@@ -17,7 +17,6 @@ const Logout = (props) => {
       console.error('Error during logout:', error);
     }
     logout()
-    alert("logged out successfully")
     props.onClose()
   };
 
@@ -30,7 +29,7 @@ const Logout = (props) => {
       <div className="overlay"></div>
 
       {/* Popup */}
-      <div className="confirmation-modal">
+      <div className="confirmation-modal bg-gray-100 dark:bg-gray-900">
         <p>Are you sure you want to log out?</p>
         <div className="button-container">
           <button className="cancel" onClick={handleCancel}>

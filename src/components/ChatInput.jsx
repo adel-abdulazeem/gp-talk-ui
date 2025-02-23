@@ -1,16 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ActionBtn } from './ActionBtn';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { nanoid } from 'nanoid'
 
+import { ActionBtn } from './buttons/ActionBtn';
+import { AuthContext } from "./auth/AuthContext";
 import MessageList from './chat/MessageList'
 import ChatForm from './chat/ChatForm'
+
 const ChatInput = () => {
-  
+
+  const {user} = useContext(AuthContext);
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
   const [fileAttached, setFileAttached] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isActive, setIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef(null);
   const textAreaRef = useRef(null);
@@ -27,29 +31,70 @@ const ChatInput = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isActive) return;
 
-    const newMessage = {
+    // Create user message with ID
+    const userMessage = {
       id: nanoid(),
       text: message,
-      file: file ? file.name : null,
+      role: 'user',
       timestamp: new Date().toISOString(),
-      expanded: false 
+      expanded: false
     };
-console.log(newMessage.id)
-    setMessages([...messages, newMessage]);
-    setMessage('');
-    setFile(null);
-    setFileAttached(false);
 
-    if (textAreaRef.current) textAreaRef.current.style.height='3rem'
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    setMessages(prev => [...prev, userMessage]);
+
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:3000/generate/', {
+        method: 'POST',
+        credentials: "include",   
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: message,
+          userId: user.id
+        })
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) throw new Error('Request failed');
+
+      // Create bot message with ID
+      const botMessage = {
+        id: nanoid(),
+        text: responseData.data.response,
+        role: 'bot',
+        timestamp: new Date().toISOString(),
+        expanded: false
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage = {
+      id: nanoid(),
+      text: error.message || 'Error getting response',
+      role: 'error',
+      timestamp: new Date().toISOString(),
+      expanded: false
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+      setMessage('');
+      setFile(null);
+      setFileAttached(false);
+      if (textAreaRef.current) textAreaRef.current.style.height='3rem';
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
-  const toggleExpand = (index) => {
-    setMessages(messages.map((msg, i) => 
-      i === index ? { ...msg, expanded: !msg.expanded } : msg
+  const toggleExpand = (id) => {
+    setMessages(messages.map((msg) => 
+      msg.id === id ? { ...msg, expanded: !msg.expanded } : msg
     ));
   };
   return (
@@ -78,3 +123,7 @@ console.log(newMessage.id)
 };
 
 export default ChatInput;
+
+
+
+

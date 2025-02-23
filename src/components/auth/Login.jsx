@@ -82,7 +82,7 @@ const Login = (props) => {
     <div className="overlay">
     <div className="form-description">
       </div>
-      <div className="signup-container">
+      <div className="signup-container bg-gray-100 dark:bg-gray-900">
         <div className="form-header">
             <p>
             Please Login to access your personalized dashboard and chat history             

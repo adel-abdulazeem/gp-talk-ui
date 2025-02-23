@@ -70,7 +70,7 @@ export default function Signup(props) {
      <div className="overlay">
           <div className="form-description">               
           </div>
-          <div className="signup-container">
+          <div className="signup-container bg-gray-100 dark:bg-gray-900">
             <div className="form-header">
               <p>
               Please Sign UP button if you don't have an account to get access to more features
