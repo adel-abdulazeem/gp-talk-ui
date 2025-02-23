@@ -17,6 +17,9 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+.message-role{
+  font-weight: bold;
+}
 .message {
   flex: 1 1 calc(50% - 10px);
   margin-bottom: 1.5rem;

@@ -20,10 +20,10 @@ const MessageList = ({ messages, toggleExpand }) => {
           >
             <div className="message-header">
               <span className="message-role">
-                {msg.role.charAt(0).toUpperCase() + msg.role.slice(1)}
+                {msg.role.charAt(0).toUpperCase() + msg.role.slice(1)}:{` `}
               </span>
               <span className="message-time">
-                {new Date(msg.timestamp).toLocaleTimeString()}
+                 {new Date(msg.timestamp).toLocaleTimeString()}
               </span>
             </div>
             <div className={`message-body ${
