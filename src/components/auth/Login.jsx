@@ -50,7 +50,6 @@ const Login = (props) => {
         body: JSON.stringify(formData),
       });
       const data = await response.json()
-      console.log(data)
       if (!response.ok) {
         // Handle validation or authentication errors
         if (data.errors) {
