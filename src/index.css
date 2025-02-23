@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 /* mode */
+body{
+  overflow-y: scroll;
+}
 .dark{
   background-color: black;
   color: white;

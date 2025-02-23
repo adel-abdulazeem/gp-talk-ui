@@ -90,7 +90,7 @@ const ChatInput = () => {
     ));
   };
   return (
-    <main className="max-w-3xl mx-auto px-6 py-8">
+    <main className="max-w-3xl mx-auto px-6 py-16">
         <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
             <MessageList messages={messages} toggleExpand={toggleExpand} />
             <ChatForm
