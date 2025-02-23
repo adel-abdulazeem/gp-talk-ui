@@ -8,11 +8,9 @@
     margin-top: 100px;
   }
 .messages {
-  max-height: 60vh;
   margin-bottom: 1rem;
   scroll-behavior: smooth;
   margin-bottom: 1rem;
-  max-height: 60vh;
   width: 100%;
   scroll-behavior: smooth;
   display: flex;
