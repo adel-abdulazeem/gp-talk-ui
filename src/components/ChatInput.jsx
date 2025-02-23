@@ -14,7 +14,6 @@ const ChatInput = () => {
   const [fileAttached, setFileAttached] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef(null);
   const textAreaRef = useRef(null);
@@ -43,18 +42,15 @@ const ChatInput = () => {
       timestamp: new Date().toISOString(),
       expanded: false
     };
-
     setMessages(prev => [...prev, userMessage]);
 
     try {
-      setIsLoading(true);
       const response = await fetch('http://localhost:3000/generate/', {
         method: 'POST',
         credentials: "include",   
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: message,
-          userId: user.id
         })
       });
 
@@ -64,19 +60,17 @@ const ChatInput = () => {
 
       // Create bot message with ID
       const botMessage = {
-        id: nanoid(),
+        id: responseData._id,
         text: responseData.data.response,
         role: 'bot',
         timestamp: new Date().toISOString(),
         expanded: false
       };
-
       setMessages(prev => [...prev, botMessage]);
-
     } catch (error) {
       console.error('Error:', error);
       const errorMessage = {
-      id: nanoid(),
+      id:  nanoid(),
       text: error.message || 'Error getting response',
       role: 'error',
       timestamp: new Date().toISOString(),
@@ -84,7 +78,6 @@ const ChatInput = () => {
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
-      setIsLoading(false);
       setMessage('');
       setFile(null);
       setFileAttached(false);

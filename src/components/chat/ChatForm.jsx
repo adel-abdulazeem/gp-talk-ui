@@ -1,5 +1,4 @@
 import React from 'react';
-import { Brain } from 'lucide-react';
 
 import InputArea from './InputArea';
 import FileUpload from './FileUpload';
