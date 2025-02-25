@@ -8,7 +8,7 @@ const InputArea = forwardRef(({ value, onChange }, ref) => {
   };
 
   return (
-    <div className="inputContainer">
+    <div className="inputContair">
     <textarea
       ref={ref}
       value={value}
