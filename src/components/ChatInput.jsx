@@ -6,11 +6,10 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { AuthContext } from "./auth/AuthContext";
 import MessageList from './chat/MessageList';
 import ChatForm from './chat/ChatForm';
-import FloatingDataWindow from './chat/FloatingDataWindow'
+import FloatingDataWindow from './chat/FloatingDataWindow';
 
 
 const ChatInput = () => {
-const defaultVal = 'fallback valu'
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -20,7 +19,7 @@ const defaultVal = 'fallback valu'
   const [fileAttached, setFileAttached] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [showWindow, setShowWindow] = useState(false);
+  const [showWindow, setShowWindow] = useState(true);
   const [streamingResponse, setStreamingResponse] = useState({
     id: '',
     text: '',
@@ -171,10 +170,11 @@ console.log(isStreaming)
       <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
       <MessageList 
       response={response}
+      displayData={displayData}  
       messages={messages}  
       />
       <div>
-      {displayData && <button 
+      {showWindow && <button 
         onClick={() => setShowWindow(!showWindow)}
         className="p-2 bg-blue-500 text-white rounded"
         >

@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import Markdown from 'react-markdown';
 import ReactMarkdown from 'react-markdown'
-const MessageList = ({ response, displayData, messages,  }) => {
+const MessageList = ({ response, messages,  }) => {
 
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
@@ -14,15 +13,15 @@ const MessageList = ({ response, displayData, messages,  }) => {
         key={msg.id} 
         className={`message ${msg.role}-message bg-gray-100 dark:bg-gray-800`}
       >
-        <Markdown>{msg.text}</Markdown>
+        <ReactMarkdown>{msg.text}</ReactMarkdown> 
       </div>
     );
   };
 
   return (
-    <div>
+    <div className='messages-container'>
         {messages.map(renderMessage)}
-      {response.map(renderMessage)}
+        {response.map(renderMessage)}
       <div ref={messagesEndRef} />
     </div>
   );

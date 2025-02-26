@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState  } from 'react';
 const FloatingDataWindow = ({ data, format }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isMinimized, setIsMinimized] = useState(false);

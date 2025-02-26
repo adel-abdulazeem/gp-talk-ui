@@ -2,55 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 /* mode */
-.messages-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-}
-body{
+/* Base Styles */
+body {
   overflow-y: scroll;
 }
-.dark{
+
+/* Dark Mode */
+.dark {
   background-color: black;
   color: white;
 }
-/* message style */
+
+.dark .main-header {
+  background-color: #000;
+  border-bottom: 1px solid #333;
+}
+
+.dark .main-nav li {
+  color: #fff;
+}
+
+.dark .main-nav li:hover {
+  color: #ffcc00;
+}
+
+/* Common Styles */
+:root {
+  --primary-color: #007bff;
+  --danger-color: #f20746;
+  --gray-color: #666;
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* Layout */
+.container {
+  max-width: 600px;
+  min-width: 340px;
+  margin: 100px auto 0;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Messages */
+.messages-container {
+  gap: 20px;
+  width: 100%;
+}
+
+.message {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  max-width: 600px;
+  width: fit-content;
+  word-wrap: break-word;
+  overflow-wrap: normal;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
 .message-body.collapsed {
   display: -webkit-box;
-  -webkit-line-clamp: 3; 
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.toggle-expand {
-  color: #666;
-  cursor: pointer;
-  padding: 0.25rem 0;
-  font-size: 0.8em;
+
+.user-message {
+  background-color: #e3f2fd;
+  justify-self: end;
 }
-.toggle-expand:hover {
-  text-decoration: underline;
-  color: #007bff;
+
+.error-message {
+  background-color: #ffebee;
+  color: #b71c1c;
 }
-.user-message { 
-  background-color:
-   #e3f2fd; 
-   display: flex;
-   justify-self: end;
-   }
-.error-message { 
-  background-color: #ffebee; 
-  color: #b71c1c; 
-}
-/* Link styling */
+
+/* Links */
 a {
-  color: #007bff;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
   cursor: pointer;
 }
+
 a:hover {
   text-decoration: underline;
 }
@@ -69,7 +106,7 @@ a:hover {
   z-index: 1000;
 }
 .signup-container {
-  padding: 1rem ;
+  padding: 1.5rem 1.5rem 3rem 1.5rem ;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -85,7 +122,7 @@ a:hover {
   margin: 1rem 0;
 }
 .form-group {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 .form-group label {
   display: block;
@@ -98,6 +135,7 @@ a:hover {
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 1rem;
   transition: border-color 0.3s ease;
 }
 .form-group input:focus {
@@ -107,6 +145,7 @@ a:hover {
 }
 .signup-container button {
   width: 100%;
+  padding: 1rem;
   margin-top: 1rem;
   background-color: #007bff;
   font-size: 1rem;
