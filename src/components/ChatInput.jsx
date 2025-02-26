@@ -2,27 +2,29 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { nanoid } from 'nanoid';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
+
 import { AuthContext } from "./auth/AuthContext";
 import MessageList from './chat/MessageList';
 import ChatForm from './chat/ChatForm';
+import FloatingDataWindow from './chat/FloatingDataWindow'
 
 
 const ChatInput = () => {
+const defaultVal = 'fallback valu'
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [response, setResponse] = useState([]);
   const [displayData, setDisplayData] = useState('');
-
   const [file, setFile] = useState(null);
   const [fileAttached, setFileAttached] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const messagesEndRef = useRef(null);
+  const [showWindow, setShowWindow] = useState(false);
 
+  const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
   const textAreaRef = useRef(null);
-
   const sseDataRef = useRef('');
   const updateTimeoutRef = useRef(null);
 
@@ -39,21 +41,6 @@ const ChatInput = () => {
     setIsActive(message.trim() !== '' || fileAttached);
   }, [message, fileAttached]);
 
-  useEffect(() => {
-    if (response.length === 0) return;
-    const lastMessage = response[response.length - 1];
-    if (lastMessage.role === 'bot' && lastMessage.isStreaming) {
-      setResponse(prev => {
-        const newResponse = [...prev];
-        const lastIndex = newResponse.length - 1;
-        newResponse[lastIndex] = {
-          ...newResponse[lastIndex],
-          text: displayData
-        };
-        return newResponse;
-      });
-    }
-  }, [displayData, response.length]);
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -82,10 +69,8 @@ const handleSubmit = async (e) => {
       expanded: false,
       isStreaming: true
     };
-
     setMessages(prev => [...prev, userMessage]);
     setResponse(prev => [...prev, botMessage ]); 
-
     try {
       setIsStreaming(true);
       const controller = new AbortController();
@@ -110,6 +95,7 @@ const handleSubmit = async (e) => {
         },
         onmessage(event) {
           sseDataRef.current += JSON.parse(event.data).text;
+
       // Throttle updates: only update state every 100ms
       if (!updateTimeoutRef.current) {
         updateTimeoutRef.current = setTimeout(() => {
@@ -123,9 +109,7 @@ const handleSubmit = async (e) => {
         },
         onclose() {
           console.log('SSE connection closed by server.');
-  
         },
-        
         onerror(err) {
           console.error('Error in SSE connection:', err);
         },
@@ -139,8 +123,6 @@ const handleSubmit = async (e) => {
           { ...msg, text: 'Error: Failed to get response', isStreaming: false } : 
           msg
         );
-        
-        // If we couldn't find the temporary bot message, add an error message
         if (!updatedMessages.find(msg => msg.id === tempBotId)) {
           updatedMessages.push({
             id: nanoid(),
@@ -150,7 +132,6 @@ const handleSubmit = async (e) => {
             expanded: false
           });
         }
-        
         return updatedMessages;
       });
     } finally {
@@ -164,27 +145,34 @@ const handleSubmit = async (e) => {
       if (updateTimeoutRef.current) updateTimeoutRef.current.value = null
     }
     };
-    console.log(messages)
-    
-    const toggleExpand = (id) => {
-      setMessages(messages.map((msg) => 
-        msg.id === id ? { ...msg, expanded: !msg.expanded } : msg
-      ));
-   };
-   
-   // Example Mermaid diagram data
-const mermaidDiagram = `
-graph TD
-    A[Router 1] -->|MPLS LSP| B(Label Edge Router)
-    B --> C[Router 2]
-    C --> D[Router 3]
-    D --> E[Router 4]
-`;
-  
+console.log(response)
+   const demoData = `graph TD
+   A[Client] --> B[Router 1]
+   B --> C[Router 2]
+   C --> D[Server]`;
+
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
       <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
-      <MessageList displayData={displayData}  response={response} messages={messages} toggleExpand={toggleExpand} />
+      <MessageList 
+      displayData={displayData}  
+      response={response} 
+      messages={messages}  
+      />
+      <div>
+      {displayData && <button 
+        onClick={() => setShowWindow(!showWindow)}
+        className="p-2 bg-blue-500 text-white rounded"
+        >
+          Toggle Preview Window
+        </button>
+      }
+      {showWindow && (
+        <FloatingDataWindow 
+          data={demoData}
+        />
+      )}
+    </div>
       <ChatForm
         message={message}
         setMessage={setMessage}

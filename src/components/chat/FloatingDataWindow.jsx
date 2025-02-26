@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const FloatingDataWindow = ({ showWindow, setShowWindow, data, format }) => {
+const FloatingDataWindow = ({ data, format }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isMinimized, setIsMinimized] = useState(false);
   const [position, setPosition] = useState({ x: 40, y: 40 });
@@ -60,11 +60,12 @@ const FloatingDataWindow = ({ showWindow, setShowWindow, data, format }) => {
     >
       {/* Window Header */}
       <div 
-        className="flex justify-between items-center px-4 py-2 border-b border-gray-200 dark:border-gray-700 cursor-move"
+        className="flex justify-between items-center px-2 border-b border-gray-200 dark:border-gray-700 cursor-pointer"
         onMouseDown={handleMouseDown}
+        onDoubleClick={() => setIsMinimized(!isMinimized)}
       >
         <h3 className="font-semibold dark:text-white">
-          {format.toUpperCase()} Preview
+           Preview
         </h3>
         <div className="flex gap-2">
           <button
