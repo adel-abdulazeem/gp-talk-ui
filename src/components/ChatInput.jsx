@@ -6,6 +6,7 @@ import { AuthContext } from "./auth/AuthContext";
 import MessageList from './chat/MessageList';
 import ChatForm from './chat/ChatForm';
 
+
 const ChatInput = () => {
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState('');
@@ -32,12 +33,27 @@ const ChatInput = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, response]);
 
   useEffect(() => {
     setIsActive(message.trim() !== '' || fileAttached);
   }, [message, fileAttached]);
 
+  useEffect(() => {
+    if (response.length === 0) return;
+    const lastMessage = response[response.length - 1];
+    if (lastMessage.role === 'bot' && lastMessage.isStreaming) {
+      setResponse(prev => {
+        const newResponse = [...prev];
+        const lastIndex = newResponse.length - 1;
+        newResponse[lastIndex] = {
+          ...newResponse[lastIndex],
+          text: displayData
+        };
+        return newResponse;
+      });
+    }
+  }, [displayData, response.length]);
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -46,12 +62,9 @@ const ChatInput = () => {
     }
   };
 
-
 const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isActive || isStreaming) return;
-
-    // Create user message
     const userMessage = {
       id: nanoid(),
       text: message,
@@ -59,7 +72,6 @@ const handleSubmit = async (e) => {
       timestamp: new Date().toISOString(),
       expanded: false
     };
-    
     // Create temporary bot message
     const tempBotId = nanoid();
     const botMessage = {
@@ -72,8 +84,7 @@ const handleSubmit = async (e) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
-
-    setResponse(prev => [...prev, botMessage ]); // Clear previous response
+    setResponse(prev => [...prev, botMessage ]); 
 
     try {
       setIsStreaming(true);
@@ -106,11 +117,9 @@ const handleSubmit = async (e) => {
           updateTimeoutRef.current = null;
         }, 100);
       }
-    
-            // setResponse(prev => [...prev, JSON.parse(event.data).text]);
-  
-          // console.log('New message:', JSON.parse(event.data));
-          // console.log('New message:', event.data);
+        // setResponse(prev => [...prev, JSON.parse(event.data).text])
+        // console.log('New message:', JSON.parse(event.data));
+        // console.log('New message:', event.data);
         },
         onclose() {
           console.log('SSE connection closed by server.');
@@ -153,21 +162,29 @@ const handleSubmit = async (e) => {
       if (fileInputRef.current) fileInputRef.current.value = '';
       if (sseDataRef.current) sseDataRef.current= ''
       if (updateTimeoutRef.current) updateTimeoutRef.current.value = null
-
     }
+    };
+    console.log(messages)
+    
+    const toggleExpand = (id) => {
+      setMessages(messages.map((msg) => 
+        msg.id === id ? { ...msg, expanded: !msg.expanded } : msg
+      ));
    };
-   const toggleExpand = (id) => {
-    setMessages(messages.map((msg) => 
-      msg.id === id ? { ...msg, expanded: !msg.expanded } : msg
-    ));
-  };
-console.log(response)
+   
+   // Example Mermaid diagram data
+const mermaidDiagram = `
+graph TD
+    A[Router 1] -->|MPLS LSP| B(Label Edge Router)
+    B --> C[Router 2]
+    C --> D[Router 3]
+    D --> E[Router 4]
+`;
   
   return (
-    <main className="max-w-6xl mx-auto py-16">
+    <main className="max-w-6xl mx-auto px-6 py-16">
       <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
-      <MessageList response={response} messages={messages} toggleExpand={toggleExpand} />
-        <div></div>
+      <MessageList displayData={displayData}  response={response} messages={messages} toggleExpand={toggleExpand} />
       <ChatForm
         message={message}
         setMessage={setMessage}
@@ -189,3 +206,4 @@ console.log(response)
   );
 };
 export default ChatInput;
+
