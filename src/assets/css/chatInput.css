@@ -1,6 +1,6 @@
 
 .container {
-    max-width: 800px;
+    max-width: 600px;
     min-width: 340px;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
@@ -8,30 +8,14 @@
     margin: 0 auto;
     margin-top: 100px;
   }
-.messages {
-  margin-bottom: 1rem;
-  scroll-behavior: smooth;
-  margin-bottom: 1rem;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.message-role{
-  font-weight: bold;
-}
 .message {
-  flex: 1 1 calc(50% - 10px);
   margin-bottom: 1.5rem;
   padding: 1rem;
   border-radius: 0.75rem;
-  width: 100%;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  text-align: justify;
+  max-width: 600px;
+  width: fit-content;
+  overflow-wrap: normal;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  position: relative;
-  align-self: flex-start;
 }
 .fileInfo {
   font-size: 0.9rem;

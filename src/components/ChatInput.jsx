@@ -21,6 +21,11 @@ const defaultVal = 'fallback valu'
   const [isActive, setIsActive] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
+  const [streamingResponse, setStreamingResponse] = useState({
+    id: '',
+    text: '',
+    isComplete: false
+  });
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -37,6 +42,7 @@ const defaultVal = 'fallback valu'
     scrollToBottom();
   }, [messages, response]);
 
+
   useEffect(() => {
     setIsActive(message.trim() !== '' || fileAttached);
   }, [message, fileAttached]);
@@ -49,9 +55,13 @@ const defaultVal = 'fallback valu'
     }
   };
 
-const handleSubmit = async (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isActive || isStreaming) return;
+
+    // Create user message
     const userMessage = {
       id: nanoid(),
       text: message,
@@ -59,81 +69,88 @@ const handleSubmit = async (e) => {
       timestamp: new Date().toISOString(),
       expanded: false
     };
-    // Create temporary bot message
-    const tempBotId = nanoid();
-    const botMessage = {
-      id: tempBotId,
-      text: displayData,
+
+    // Create initial bot message
+    const botMessageId = nanoid();
+    const initialBotMessage = {
+      id: botMessageId,
+      text: '',
       role: 'bot',
       timestamp: new Date().toISOString(),
       expanded: false,
       isStreaming: true
     };
+
+    // Reset streaming state
+    setStreamingResponse({
+      id: botMessageId,
+      text: '',
+      isComplete: false
+    });
+
     setMessages(prev => [...prev, userMessage]);
-    setResponse(prev => [...prev, botMessage ]); 
+    setResponse(prev => [...prev, initialBotMessage]);
+
     try {
       setIsStreaming(true);
       const controller = new AbortController();
-      const url = 'http://localhost:3000/generate'
-       fetchEventSource(url, {
+      const url = 'http://localhost:3000/generate';
+
+      await fetchEventSource(url, {
         signal: controller.signal,
         method: 'POST',
         headers: {
-          Accept: 'text/event-stream',
+          "Content-Type": 'application/json',
         },
-        body: JSON.stringify({
-          message: message,
-          userId: user?.id
-        }),
+        body: JSON.stringify({ message }),
         onopen(response) {
-          if (response.ok && response.status === 200) {
-            console.log(response);
-          } else if (response.status >= 400 && response.status < 500 && response.status !== 429) {
-            console.error('Client error, closing connection.');
-            controller.abort();
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
         },
         onmessage(event) {
-          sseDataRef.current += JSON.parse(event.data).text;
+          const newData = JSON.parse(event.data).text;
+          setStreamingResponse(prev => ({
+            ...prev,
+            text: prev.text + newData
+          }));
 
-      // Throttle updates: only update state every 100ms
-      if (!updateTimeoutRef.current) {
-        updateTimeoutRef.current = setTimeout(() => {
-          setDisplayData(sseDataRef.current);
-          updateTimeoutRef.current = null;
-        }, 100);
-      }
-        // setResponse(prev => [...prev, JSON.parse(event.data).text])
-        // console.log('New message:', JSON.parse(event.data));
-        // console.log('New message:', event.data);
+          // Update the response in the messages list
+          setResponse(prev => prev.map(msg => 
+            msg.id === botMessageId 
+              ? { ...msg, text: msg.text + newData }
+              : msg
+          ));
         },
         onclose() {
-          console.log('SSE connection closed by server.');
+          setStreamingResponse(prev => ({
+            ...prev,
+            isComplete: true
+          }));
+          // Update final message state
+          setResponse(prev => prev.map(msg => 
+            msg.id === botMessageId 
+              ? { ...msg, isStreaming: false }
+              : msg
+          ));
         },
         onerror(err) {
           console.error('Error in SSE connection:', err);
+          controller.abort();
+          throw err;
         },
       });
     } catch (error) {
       console.error('Error:', error);
-      setMessages(prev => {
-        // Find and update the temporary bot message if it exists
-        const updatedMessages = prev.map(msg => 
-          msg.id === tempBotId ? 
-          { ...msg, text: 'Error: Failed to get response', isStreaming: false } : 
-          msg
-        );
-        if (!updatedMessages.find(msg => msg.id === tempBotId)) {
-          updatedMessages.push({
-            id: nanoid(),
-            text: `Error: ${error.message}`,
-            role: 'error',
-            timestamp: new Date().toISOString(),
-            expanded: false
-          });
-        }
-        return updatedMessages;
-      });
+      setResponse(prev => prev.map(msg => 
+        msg.id === streamingResponse.id 
+          ? {
+              ...msg,
+              text: 'Error: Failed to get response',
+              isStreaming: false
+            }
+          : msg
+      ));
     } finally {
       setIsStreaming(false);
       setMessage('');
@@ -141,22 +158,19 @@ const handleSubmit = async (e) => {
       setFileAttached(false);
       if (textAreaRef.current) textAreaRef.current.style.height = '3rem';
       if (fileInputRef.current) fileInputRef.current.value = '';
-      if (sseDataRef.current) sseDataRef.current= ''
-      if (updateTimeoutRef.current) updateTimeoutRef.current.value = null
     }
-    };
-console.log(response)
+  };
    const demoData = `graph TD
    A[Client] --> B[Router 1]
    B --> C[Router 2]
    C --> D[Server]`;
-
+console.log(response)
+console.log(isStreaming)
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
       <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
       <MessageList 
-      displayData={displayData}  
-      response={response} 
+      response={response}
       messages={messages}  
       />
       <div>
