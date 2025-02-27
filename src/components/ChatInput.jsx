@@ -29,8 +29,6 @@ const ChatInput = () => {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
   const textAreaRef = useRef(null);
-  const sseDataRef = useRef('');
-  const updateTimeoutRef = useRef(null);
 
   // Scroll to bottom when messages update
   const scrollToBottom = () => {
@@ -93,7 +91,7 @@ const ChatInput = () => {
     try {
       setIsStreaming(true);
       const controller = new AbortController();
-      const url = 'http://localhost:3000/generate';
+      const url = 'https://gptalk-api.onrender.com/generate';
 
       await fetchEventSource(url, {
         signal: controller.signal,
@@ -103,23 +101,38 @@ const ChatInput = () => {
         },
         body: JSON.stringify({ message }),
         onopen(response) {
+          console.log(response)
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
         },
         onmessage(event) {
-          const newData = JSON.parse(event.data).text;
-          setStreamingResponse(prev => ({
-            ...prev,
-            text: prev.text + newData
-          }));
+          console.log(event)
+          if (event.event === 'error') {
+            const errorData = JSON.parse(event.data);
+            throw new Error(errorData.error);
+        }
 
-          // Update the response in the messages list
-          setResponse(prev => prev.map(msg => 
-            msg.id === botMessageId 
-              ? { ...msg, text: msg.text + newData }
-              : msg
-          ));
+        if (event.event === 'complete') {
+            return;
+        }          
+          try {
+            const newData = JSON.parse(event.data).data;
+
+          setTimeout(() => {
+            setStreamingResponse(prev => ({
+              ...prev,
+              text: prev.text + newData
+          }));
+          }, 100)
+            setResponse(prev => prev.map(msg => 
+                msg.id === botMessageId 
+                    ? { ...msg, text: msg.text + newData }
+                    : msg
+            ));
+            } catch (e) {
+                console.error('Error parsing event data:', e);
+            }
         },
         onclose() {
           setStreamingResponse(prev => ({
@@ -139,6 +152,7 @@ const ChatInput = () => {
           throw err;
         },
       });
+
     } catch (error) {
       console.error('Error:', error);
       setResponse(prev => prev.map(msg => 
@@ -150,6 +164,7 @@ const ChatInput = () => {
             }
           : msg
       ));
+
     } finally {
       setIsStreaming(false);
       setMessage('');

@@ -33,7 +33,7 @@ export default function Signup(props) {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch("https://gptalk-api.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

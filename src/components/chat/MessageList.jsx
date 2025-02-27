@@ -11,8 +11,11 @@ const MessageList = ({ response, messages,  }) => {
     return (
       <div 
         key={msg.id} 
-        className={`message ${msg.role}-message bg-gray-100 dark:bg-gray-800`}
-      >
+        className={`message ${msg.role}-message 
+        ${msg.role === 'bot'?
+           'bg-gray-100 dark:bg-gray-700' :
+            'bg-gray-100 dark:bg-gray-900'}`}
+        >
         <ReactMarkdown>{msg.text}</ReactMarkdown> 
       </div>
     );
