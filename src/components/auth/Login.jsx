@@ -41,7 +41,7 @@ const Login = (props) => {
 
     try {
       // Send login request to the server
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("https://gptalk-api.onrender.com/login", {
         method: "POST",
         credentials: "include",
         headers: {
