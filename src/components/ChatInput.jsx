@@ -19,7 +19,7 @@ const ChatInput = () => {
   const [fileAttached, setFileAttached] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [showWindow, setShowWindow] = useState(true);
+  const [showWindow, setShowWindow] = useState(false);
   const [streamingResponse, setStreamingResponse] = useState({
     id: '',
     text: '',
