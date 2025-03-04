@@ -4,7 +4,7 @@ GPTalk is an AI-powered chat model built using **React** and **Tailwind CSS**. I
 
 ## Features
 
-- **AI-Powered Conversations** – Interact with an intelligent chatbot powered by GPT.
+- **AI-Powered Conversations** – Interact with an intelligent chatbot powered by Cohere.
 - **Responsive UI** – Built with Tailwind CSS for a sleek and adaptive design.
 - **Fast and Efficient** – Optimized with React for smooth performance.
 - **User-Friendly Interface** – Simple, clean, and easy-to-use chat layout.
@@ -12,7 +12,7 @@ GPTalk is an AI-powered chat model built using **React** and **Tailwind CSS**. I
 ## Tech Stack
 
 - **Frontend**: React, Tailwind CSS
-- **AI Model**: GPT-based API
+- **AI Model**: Cohere-AI based API
 
 ## Installation
 
