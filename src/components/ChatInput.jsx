@@ -101,13 +101,13 @@ const ChatInput = () => {
         },
         body: JSON.stringify({ message }),
         onopen(response) {
-          console.log(response)
+          // console.log(response)
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
         },
         onmessage(event) {
-          console.log(event)
+          // console.log(event)
           if (event.event === 'error') {
             const errorData = JSON.parse(event.data);
             throw new Error(errorData.error);
@@ -178,8 +178,8 @@ const ChatInput = () => {
    A[Client] --> B[Router 1]
    B --> C[Router 2]
    C --> D[Server]`;
-console.log(response)
-console.log(isStreaming)
+// console.log(response)
+// console.log(isStreaming)
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
       <h1 className="text-2xl font-semibold text-center mb-10">What can I help with?</h1>
