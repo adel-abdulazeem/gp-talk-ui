@@ -42,10 +42,14 @@ body {
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
 }
 /* Messages */
-.messages-container {
+.message-list{
+  display: block;
+}
+.messages-container{
   gap: 20px;
   width: 100%;
 }
+
 .message {
   margin-bottom: 1.5rem;
   padding: 1rem;

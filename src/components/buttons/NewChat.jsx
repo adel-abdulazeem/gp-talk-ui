@@ -2,8 +2,11 @@ import { SquarePen } from 'lucide-react';
 
 
 export default function NewChat(){
+    const handleNewChat = () => {
+        window.location.reload();
+      };
     return (
-        <button>
+        <button onClick={handleNewChat}>
             <SquarePen />
         </button>
     )

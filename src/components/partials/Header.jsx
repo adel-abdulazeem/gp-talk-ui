@@ -22,9 +22,11 @@ const Header = () => {
                 <li>
                 <SideWindow/>
                 </li>
+                <a href="https://gp-chat-ai-ui.netlify.app">
                 <li>
                   GPTalk-AI
                 </li>
+                </a>
                 <div className="action-buttons">
                   <li >
                     <NewChat/>
