@@ -44,12 +44,10 @@ const prompt = messages.map((msg, index) => (
   // Container for each user message and its bot response
   <div key={msg.id}>
     {renderMessage(msg)}
-    {/* Render corresponding bot response if exists */}
+    {/* Render corresponding bot response */}
     <ReactMarkdown>{`${response[index].text}`}</ReactMarkdown>
   </div>
 ))
-{response[0]}
-
   return (
     <div className='message-list'>
       <div className='messages-container'>

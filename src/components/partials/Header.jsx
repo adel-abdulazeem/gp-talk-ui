@@ -3,7 +3,6 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import DarkMode from "../buttons/DarkMode";
 import NewChat from "../buttons/NewChat";
-import SideWindow from "../buttons/SideWindow";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 import Logout from '../auth/Logout'
@@ -20,7 +19,6 @@ const Header = () => {
         <nav className="main-nav">
             <ul>
                 <li>
-                <SideWindow/>
                 </li>
                 <a href="https://gp-chat-ai-ui.netlify.app">
                 <li>
